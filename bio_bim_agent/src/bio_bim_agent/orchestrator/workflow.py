@@ -25,7 +25,7 @@ Este módulo separa dos responsabilidades:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from bio_bim_agent.executors.bim_executor_agent import BIMExecutionAgent
@@ -124,4 +124,4 @@ class BioBuildingOrchestrator:
                 "structural_strength": material.structural_strength,
             }
 
-        return BioBuildingState(timestamp=datetime.utcnow(), elements=elements)
+        return BioBuildingState(timestamp=datetime.now(timezone.utc), elements=elements)

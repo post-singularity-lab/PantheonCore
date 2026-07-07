@@ -10,6 +10,26 @@ def test_bio_material_rejects_negative_growth_rate():
         BioMaterial(name="bad", growth_rate=-0.1, regeneration_cycle_days=30)
 
 
+def test_bio_material_rejects_negative_regeneration_cycle_days():
+    """Bug original: no había validación para regeneration_cycle_days negativo."""
+    with pytest.raises(ValueError) as exc_info:
+        BioMaterial(name="bad", growth_rate=0.0, regeneration_cycle_days=-1)
+    assert "regeneration_cycle_days" in str(exc_info.value)
+
+
+def test_bio_material_rejects_zero_structural_strength():
+    """Bug original: no había validación para structural_strength <= 0."""
+    with pytest.raises(ValueError) as exc_info:
+        BioMaterial(name="bad", growth_rate=0.0, regeneration_cycle_days=30, structural_strength=0)
+    assert "structural_strength" in str(exc_info.value)
+
+
+def test_bio_material_rejects_negative_structural_strength():
+    with pytest.raises(ValueError) as exc_info:
+        BioMaterial(name="bad", growth_rate=0.0, regeneration_cycle_days=30, structural_strength=-1)
+    assert "structural_strength" in str(exc_info.value)
+
+
 def test_bio_material_rejects_invalid_degradation_rate():
     with pytest.raises(ValueError):
         BioMaterial(
@@ -18,6 +38,22 @@ def test_bio_material_rejects_invalid_degradation_rate():
             regeneration_cycle_days=30,
             degradation_rate=1.5,
         )
+
+
+def test_bio_material_to_dict_returns_dict():
+    """BioMaterial.to_dict() debe funcionar correctamente."""
+    material = BioMaterial(
+        name="mycelium",
+        growth_rate=0.03,
+        regeneration_cycle_days=90,
+        carbon_sequestration=4.5,
+        structural_strength=2.8,
+    )
+    data = material.to_dict()
+    assert isinstance(data, dict)
+    assert data["name"] == "mycelium"
+    assert data["growth_rate"] == 0.03
+    assert data["structural_strength"] == 2.8
 
 
 def test_state_copy_is_a_deep_copy_not_the_same_object():

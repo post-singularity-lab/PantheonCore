@@ -91,6 +91,39 @@ def test_predict_optimal_regeneration_returns_future_dates(mycelium_state):
     assert schedule["mycelium_composite"] > sim.state.timestamp
 
 
+def test_predict_optimal_regeneration_skips_materials_with_zero_cycle():
+    """Materiales con regeneration_cycle_days=0 no deben aparecer en el schedule."""
+    from datetime import datetime
+
+    # Crear un estado con un material sin ciclo de regeneración
+    material_no_cycle = get_material("bacterial_cement")  # growth_rate=0, regeneration_cycle_days=180
+    # Crear un estado manually con material sin ciclo
+    state = BioBuildingState(
+        timestamp=datetime(2026, 1, 1),
+        elements={
+            "element-1": {
+                "material": material_no_cycle,
+                "volume": 100.0,
+                "structural_load": 100.0,
+                "structural_strength": material_no_cycle.structural_strength,
+            }
+        },
+    )
+    # bacterial_cement tiene regeneration_cycle_days=180, no 0
+    # Pero el regeneration_progress solo se llena cuando hacemos steps()
+    sim = BioGrowthSimulator(state)
+    # Antes de cualquier step, el schedule está vacío porque no hay progress aún
+    schedule = sim.predict_optimal_regeneration()
+    # El schedule está vacío porque no hemos hecho ningún step
+    assert schedule == {}
+    
+    # Hacer un step para poblar regeneration_progress
+    sim.step(days=10)
+    schedule = sim.predict_optimal_regeneration()
+    # Ahora bacterial_cement debería aparecer en el schedule
+    assert "bacterial_cement" in schedule
+
+
 def test_run_advances_multiple_steps(mycelium_state):
     sim = BioGrowthSimulator(mycelium_state)
     final_state = sim.run(total_days=100, step_days=30)
