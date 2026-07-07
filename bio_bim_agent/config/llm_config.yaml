@@ -1,0 +1,14 @@
+# Configuración de modelos locales para los agentes (Ollama u otro backend
+# compatible con la API de AutoGen). Ajusta según tu entorno.
+default:
+  model: "deepseek-coder:33b"
+  base_url: "http://localhost:11434/v1"
+  api_key: "ollama"  # placeholder, Ollama no valida la key
+  temperature: 0.2
+
+alternatives:
+  large_context:
+    model: "llama3.1:70b"
+    base_url: "http://localhost:11434/v1"
+    api_key: "ollama"
+    temperature: 0.2

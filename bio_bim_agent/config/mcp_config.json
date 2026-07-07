@@ -1,0 +1,6 @@
+{
+  "ws_url": "ws://localhost:8080",
+  "timeout_seconds": 5,
+  "revit_version": "2027",
+  "addin_manifest_path": "%APPDATA%/Autodesk/Revit/Addins/2027/mcp-server-for-revit.addin"
+}

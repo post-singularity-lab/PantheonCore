@@ -1,0 +1,7 @@
+# Núcleo (modelos + simulación + orquestación): sin dependencias externas.
+#
+# Dependencias opcionales según lo que vayas a usar:
+websocket-client>=1.7   # solo si te conectas a un Revit real (RevitMCPExecutor)
+pyautogen>=0.2           # solo si construyes agentes conversacionales reales
+streamlit>=1.32          # solo para el dashboard
+plotly>=5.20             # solo para el dashboard

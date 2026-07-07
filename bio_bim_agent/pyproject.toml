@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bio-bim-agent"
+version = "0.2.0"
+description = "Sistema multi-agente que orquesta Revit para diseñar arquitectura biociborg (edificios vivos, regenerativos y energéticamente autosuficientes)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = []
+
+[project.optional-dependencies]
+revit = ["websocket-client>=1.7"]
+agents = ["pyautogen>=0.2"]
+dashboard = ["streamlit>=1.32", "plotly>=5.20"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
