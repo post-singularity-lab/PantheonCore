@@ -1,7 +1,6 @@
 import pytest
 
 from bio_bim_agent.executors.mcp_client import (
-    MockRevitExecutor,
     RevitConnectionError,
     RevitMCPExecutor,
 )

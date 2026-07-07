@@ -30,6 +30,7 @@ docstring del módulo correspondiente):
 | 7 | `execute_design_intent` llamaba a `self.llm.generate_code(...)` y `self._load_revit_api_docs()`, nunca definidos | Generador de código inyectable (`code_generator`), con un stub determinista por defecto |
 | 8 | `BioBuildingOrchestrator.design_bio_building` llamaba a `manager.run()` (no existe en AutoGen) y a métodos nunca implementados (`_extract_design_params`, `_bim_to_state`, `_export_bim`, `_generate_health_report`) | Pipeline reescrito con `DesignParams` explícito y 100% ejecutable/testeable, sin acoplarse a una API de AutoGen concreta |
 | 9 | `from autogen import ...` a nivel de módulo obligaba a tener `pyautogen` instalado solo para leer los `system_message` de los agentes | `AGENT_SYSTEM_MESSAGES` como datos puros; `build_agents()` importa AutoGen de forma perezosa |
+| 10 | `datetime.utcnow()` deprecated warning en Python 3.12+ | Usar `datetime.now(timezone.utc)` en `workflow.py` |
 
 ## Estructura del proyecto
 
@@ -42,9 +43,9 @@ bio_bim_agent/
 │   ├── agents/            # System messages de los agentes + construcción AutoGen (opcional)
 │   └── orchestrator/      # Pipeline completo: diseño -> simulación -> sync BIM
 ├── dashboard/             # Dashboard Streamlit (usa el executor mock por defecto)
-├── tests/                 # Suite pytest (17 tests, todos dirigidos a los bugs de la tabla)
+├── tests/                 # Suite pytest (34 tests, todos dirigidos a los bugs de la tabla)
 ├── config/                # Configuración de LLM local y del MCP server
-└── .github/workflows/     # CI: pytest en Python 3.10/3.11/3.12
+└── .github/workflows/     # CI: pytest en Python 3.10/3.11/3.12/3.13 + lint ruff
 ```
 
 ## Instalación

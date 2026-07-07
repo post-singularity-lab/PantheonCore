@@ -4,13 +4,10 @@ Uso:
     streamlit run dashboard/streamlit_app.py
 """
 
-from datetime import datetime
-
 import plotly.graph_objects as go
 import streamlit as st
 
 from bio_bim_agent.executors.mcp_client import MockRevitExecutor
-from bio_bim_agent.models import BioBuildingState
 from bio_bim_agent.orchestrator.workflow import BioBuildingOrchestrator, DesignParams, ElementSpec
 from bio_bim_agent.simulation.growth_engine import BioGrowthSimulator
 
